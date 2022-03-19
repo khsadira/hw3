@@ -1,0 +1,35 @@
+
+* {
+    /* font-family: "Helvetica,Arial,sans-serif" !important; */
+    /* font-family: "Arial Black", Helvetica, sans-serif !important; */
+
+    /*Hublot*/
+    /* font-family: 'Gotham Black', Arial, sans-serif !important; */ 
+    
+    /*Tag*/
+    /* font-family: Helvetica,Arial,sans-serif;  */
+    
+     /*Rimowa*/
+    font-family: RimowaGroteskLight,Arial,sans-serif;
+}
+
+body {
+    /* -webkit-font-smoothing: antialiased !important; */
+    -moz-osx-font-smoothing: greyscale !important;
+    font-weight: normal !important;
+    color: #999 !important;
+    background-color: white !important;
+    min-height: 100vh !important;
+}
+
+main {
+    /* min-height: 87vh !important;    */
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
