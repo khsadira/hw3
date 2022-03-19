@@ -109,7 +109,7 @@ const ResponsiveAppBar = (props) => {
             {props.walletIdentifier === null ? (
                 <Tooltip key="connect" title="Connect to your wallet">
                   <IconButton
-                    onClick={() => {props.setWalletIdentifier('0x940da9c30539E723Dcb8426Ca1653C8b3940dDF3')}}
+                    onClick={() => {props.login()}}
                     sx={{ p: 0 }}
                   >
                     <AccountBalanceWalletIcon sx={{color: "white"}} fontSize="large" />
