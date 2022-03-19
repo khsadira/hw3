@@ -9,17 +9,19 @@ import Menu from './Menu';
 
 function App() {
   const [loginStep, setLoginStep] = React.useState(0)
+  const [loggedOut, setLoggedOut] = React.useState(false)
   const [walletIdentifier, setWalletIdentifier] = React.useState(null);
   const wallet = useWallet()
 
-  const login = () => {
+  const login = React.useCallback(() => {
     if (wallet.status !== 'connected') {
       setLoginStep(1)
       wallet.connect()
     }
-  }
+  }, [wallet])
 
   const logout = () => {
+    setLoggedOut(true)
     setLoginStep(0)
     wallet.reset()
     setWalletIdentifier(null)
@@ -39,31 +41,52 @@ function App() {
   }
 
   React.useEffect(() => {
+    const verifySignature = (message, signature) => {
+      if (signature === null) {
+        return false
+      }
+      const address = ethers.utils.verifyMessage(message, signature)
+      const check = address === wallet.account
+      if (!check) {
+        console.error({address})
+      }
+      return check
+    }
+
     if (loginStep === 1) {
       if (wallet.status === 'connected') {
-        //setLoginStep(2)
+        if (wallet.ethereum === undefined) {
+          logout()
+          return
+        }
         const provider = new ethers.providers.Web3Provider(wallet.ethereum)
         const message = 'Welcome to Dyor Bet!'
-        provider.getSigner().signMessage(message).then(ret => {
-          //setLoginStep(3)
-          const address = ethers.utils.verifyMessage(message, ret)
-          if (address !== wallet.account) {
-            console.error({address})
+
+        const storedSignature = sessionStorage.getItem('signature')
+        if (verifySignature(message, storedSignature)) {
+          setWalletIdentifier(wallet.account)
+          return
+        }
+
+        provider.getSigner().signMessage(message).then(signature => {
+          if (!verifySignature(message, signature)) {
             return
           }
+          sessionStorage.setItem('signature', signature)
           setWalletIdentifier(wallet.account)
         })
       }
     }
   }, [loginStep, wallet.status, wallet.account, wallet.ethereum])
 
-  /*
   React.useEffect(() => {
-    if (walletIdentifier === null && wallet.status === 'connected') {
-      setWalletIdentifier(wallet.account)
+    if (loggedOut) {
+      return
     }
-  }, [walletIdentifier, wallet.status, wallet.account])
-  */
+    if (window.ethereum.selectedAddress !== null && window.ethereum.selectedAddress !== "" && wallet.ethereum === undefined) {
+      login()
+    }
+  }, [loggedOut, wallet.ethereum, login])
 
   return <>
     <div className="App">
