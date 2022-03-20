@@ -1,14 +1,33 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
+import { ethers } from 'ethers'
+import { useWallet, UseWalletProvider } from 'use-wallet'
+import { NonceManager } from "@ethersproject/experimental";
 
 
 export default function BetList(props) {
 	const {betList} = props
+	const wallet = useWallet()
 
 	function betItem(bet) {
-    async function acceptBet() {
-      console.log({id: bet.id})
-    }
+			async function acceptBet() {
+			console.log({id: bet.id})
+			fetch('/Dyor_bet.json')
+			.then(resp => resp.json())
+			.then(data => {
+				// console.log({x: data})
+				const abi = data.abi
+				const provider = new ethers.providers.Web3Provider(wallet.ethereum)
+				const signer = provider.getSigner()
+				const nonceManager = new NonceManager(signer)
+				const contract = new ethers.Contract(
+				'0xc30E53CC485bF1D306040316Ccb687505554F74D', abi, nonceManager)
+				const now = parseInt(Date.now()/1000)
+				contract.accept(bet.id, {
+					value: ethers.utils.parseEther("0.0001").toString()
+				})
+			})
+		}
 
 		return (
 			<div style={{
