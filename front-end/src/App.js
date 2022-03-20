@@ -41,7 +41,7 @@ function App() {
           '0xc30E53CC485bF1D306040316Ccb687505554F74D', abi, nonceManager)
         const now = parseInt(Date.now()/1000)
         contract.launch(2, 3, 'ETH', 1, {
-            value: ethers.utils.parseEther("0.01").toString(),
+            value: ethers.utils.parseEther("0.001").toString(),
         })
       })
   }
