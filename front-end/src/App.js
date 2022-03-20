@@ -64,7 +64,7 @@ function App() {
         })
         console.log("resBet", resBet)
         resBet.data.response.id = i
-        betListTmp.push(resBet.data.response)
+        betListTmp.unshift(resBet.data.response)
       }
       console.log("resBet", betListTmp)
       console.log("NB_BETS", nbBets)

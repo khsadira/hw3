@@ -3,16 +3,16 @@ import Button from '@mui/material/Button';
 
 
 export default function BetList(props) {
-	const {betList} = {...props}
+	const {betList} = props
 
-	async function acceptBet() {
-		console.log("acceptBet")
-	}
+	function betItem(bet) {
+    async function acceptBet() {
+      console.log({id: bet.id})
+    }
 
-	function betItem(bet) { 
-		return ( 
+		return (
 			<div style={{
-					display: 'flex', 
+					display: 'flex',
 					flexDirection: 'center',
 					alignItems: 'center',
 					justifyContent: 'center',
@@ -22,10 +22,10 @@ export default function BetList(props) {
 			}}>
 				<p>CREATOR: {bet[0]}</p>
 				<p>CHALLENGER: {bet[1]}</p>
-				{/* <p>BET AMOUNT: {bet[2]._hex}</p> */}
+				<p>BET AMOUNT: {bet[2]?._hex}</p>
 				<p>BET CRYPTO: {bet[6]}</p>
-				{/* <p>PRICE PREDICTION: {bet[7]._hex}</p> */}
-				{/* <p>PRICE PREDICTION: {bet[8]._hex}</p> */}
+				<p>PRICE PREDICTION: {bet[7]?._hex}</p>
+				<p>PRICE PREDICTION: {bet[8]?._hex}</p>
 				<p>END DATE: {bet[4]}</p>
 				<Button variant="contained" onClick={acceptBet}>
 					ACCEPT THE BET
