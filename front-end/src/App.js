@@ -5,14 +5,26 @@ import Button from '@mui/material/Button';
 import { NonceManager } from "@ethersproject/experimental";
 
 import './App.css';
+import BetList from './betList'
 import Menu from './Menu';
 
+import axios from "axios";
+import { CircularProgress } from '@mui/material';
+
+const http = axios.create({
+	baseURL: "https://api.starton.io/v2",
+	headers: {
+		"x-api-key": "yLcAmpNs3MHZaQ9Dfydp5VI24uI851jn",
+	},
+});
 
 function App() {
   const [loginStep, setLoginStep] = React.useState(0)
   const [loggedOut, setLoggedOut] = React.useState(false)
   const [walletIdentifier, setWalletIdentifier] = React.useState(null);
   const wallet = useWallet()
+  const [betList, setBetList] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
 
   const login = React.useCallback(() => {
     if (wallet.status !== 'connected') {
@@ -20,6 +32,13 @@ function App() {
       wallet.connect()
     }
   }, [wallet])
+
+  React.useEffect(() => {
+    // if (walletIdentifier != null) {
+      console.log("GET")
+      getBets()
+    // }
+  },[])
 
   const logout = () => {
     setLoggedOut(true)
@@ -44,6 +63,36 @@ function App() {
             value: ethers.utils.parseEther("0.001").toString(),
         })
       })
+  }
+
+  const getBets = async () => {
+    try {
+      setLoading(true)
+      const res = await http.post('/smart-contract/ethereum-ropsten/0xc30E53CC485bF1D306040316Ccb687505554F74D/read', {
+        functionName: 'count',
+        params: [],
+      })
+      console.log("RES => ", res.data)
+      let nbBets = 0
+      if (res && res.data && res.data.response && res.data.response.raw) nbBets = parseInt(res.data.response.raw)
+      let betListTmp = []
+      for(let i = 1; i <= nbBets; i++) {
+        let resBet = await http.post('/smart-contract/ethereum-ropsten/0xc30E53CC485bF1D306040316Ccb687505554F74D/read', {
+          functionName: 'bets',
+          params: [i],
+        })
+        console.log("resBet", resBet)
+        resBet.data.response.id = i
+        betListTmp.push(resBet.data.response)
+      }
+      console.log("resBet", betListTmp)
+      console.log("NB_BETS", nbBets)
+      setBetList(betListTmp)
+      setLoading(false)
+    } catch(error) {
+      console.log("ERRRO", error)
+      setLoading(false)
+    }
   }
 
   React.useEffect(() => {
@@ -95,16 +144,20 @@ function App() {
   }, [loggedOut, wallet.ethereum, login])
 
   return <>
-    <div className="App">
+    <div className="App" style={{display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
       <Menu
         walletIdentifier={walletIdentifier}
         setWalletIdentifier={setWalletIdentifier}
         login={login}
         logout={logout}
+        
       />
       {walletIdentifier !== null && (
         <Button onClick={test}>test</Button>
       )}
+      {!loading 
+        ? <BetList betList={betList} />
+        : <CircularProgress style={{marginTop:'2em'}} />}
     </div>
   </>
 }
