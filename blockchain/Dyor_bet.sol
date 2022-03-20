@@ -91,7 +91,7 @@ contract Dyor_bet {
         bet.claimed = true;
 
         uint _finalAmount = bet.amount * 2;
-        _finalAmount = _finalAmount + (30 * _finalAmount / 100);
+        _finalAmount = _finalAmount - (30 * _finalAmount / 100);
         transfer(msg.sender, _finalAmount);
     }
 

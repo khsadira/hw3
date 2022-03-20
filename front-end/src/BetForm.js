@@ -24,7 +24,7 @@ function BetForm(props) {
         const signer = provider.getSigner()
         const nonceManager = new NonceManager(signer)
         const contract = new ethers.Contract(
-          '0x50f65EadaAB6936A86787A8c1f0Bfb4a1cA164E5', abi, nonceManager)
+          '0x1275308f4880F43f1cAeA2c7BCaB97cc7A88Ec6B', abi, nonceManager)
         const now = parseInt(Date.now() / 1000)
         console.log("contract", contract)
         contract.launch(now, now + betLength, currencyName, "down", {

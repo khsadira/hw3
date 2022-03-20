@@ -48,7 +48,7 @@ function App() {
     try {
       setLoading(true)
       const res = await http.post('/callApi', {
-        url: "https://api.starton.io/v2/smart-contract/ethereum-ropsten/0x50f65EadaAB6936A86787A8c1f0Bfb4a1cA164E5/read",
+        url: "https://api.starton.io/v2/smart-contract/ethereum-ropsten/0x1275308f4880F43f1cAeA2c7BCaB97cc7A88Ec6B/read",
         method: "post",
         headers: {
           'Content-Type': 'application/json' 
@@ -62,7 +62,7 @@ function App() {
       let betListTmp = []
       for(let i = 1; i <= nbBets; i++) {
         let resBet = await http.post('/callApi', {
-          url: "https://api.starton.io/v2/smart-contract/ethereum-ropsten/0x50f65EadaAB6936A86787A8c1f0Bfb4a1cA164E5/read",
+          url: "https://api.starton.io/v2/smart-contract/ethereum-ropsten/0x1275308f4880F43f1cAeA2c7BCaB97cc7A88Ec6B/read",
           method: "post",
           headers: {
             'Content-Type': 'application/json' 
