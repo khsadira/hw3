@@ -11,10 +11,8 @@ import axios from "axios";
 import { CircularProgress } from '@mui/material';
 
 const http = axios.create({
-	baseURL: "https://api.starton.io/v2",
-	headers: {
-		"x-api-key": "yLcAmpNs3MHZaQ9Dfydp5VI24uI851jn",
-	},
+	baseURL: "http://127.0.0.1:3001",
+	headers: {},
 });
 
 function App() {
@@ -49,22 +47,33 @@ function App() {
   const getBets = async () => {
     try {
       setLoading(true)
-      const res = await http.post('/smart-contract/ethereum-ropsten/0xc30E53CC485bF1D306040316Ccb687505554F74D/read', {
-        functionName: 'count',
-        params: [],
+      const res = await http.post('/callApi', {
+        url: "https://api.starton.io/v2/smart-contract/ethereum-ropsten/0xc30E53CC485bF1D306040316Ccb687505554F74D/read",
+        method: "post",
+        headers: {
+          'Content-Type': 'application/json' 
+        },
+        body: {
+          functionName: 'count',
+          params: []
+        }
       })
-      console.log("RES => ", res.data)
-      let nbBets = 0
-      if (res && res.data && res.data.response && res.data.response.raw) nbBets = parseInt(res.data.response.raw)
+      let nbBets = res.data.raw || 0
       let betListTmp = []
       for(let i = 1; i <= nbBets; i++) {
-        let resBet = await http.post('/smart-contract/ethereum-ropsten/0xc30E53CC485bF1D306040316Ccb687505554F74D/read', {
-          functionName: 'bets',
-          params: [i],
+        let resBet = await http.post('/callApi', {
+          url: "https://api.starton.io/v2/smart-contract/ethereum-ropsten/0xc30E53CC485bF1D306040316Ccb687505554F74D/read",
+          method: "post",
+          headers: {
+            'Content-Type': 'application/json' 
+          },
+          body: {
+            functionName: 'bets',
+            params: [i],
+          }
         })
-        console.log("resBet", resBet)
-        resBet.data.response.id = i
-        betListTmp.unshift(resBet.data.response)
+        resBet.data.id = i
+        betListTmp.unshift(resBet.data)
       }
       console.log("resBet", betListTmp)
       console.log("NB_BETS", nbBets)
