@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useWallet, UseWalletProvider } from 'use-wallet'
 import { ethers } from 'ethers'
-import Button from '@mui/material/Button';
-import { NonceManager } from "@ethersproject/experimental";
 
 import './App.css';
 import BetList from './betList'
 import Menu from './Menu';
+import BetForm from './BetForm';
 
 import axios from "axios";
 import { CircularProgress } from '@mui/material';
@@ -45,24 +44,6 @@ function App() {
     setLoginStep(0)
     wallet.reset()
     setWalletIdentifier(null)
-  }
-
-  const test = async () => {
-    fetch('/Dyor_bet.json')
-      .then(resp => resp.json())
-      .then(data => {
-        console.log({x: data})
-        const abi = data.abi
-        const provider = new ethers.providers.Web3Provider(wallet.ethereum)
-        const signer = provider.getSigner()
-        const nonceManager = new NonceManager(signer)
-        const contract = new ethers.Contract(
-          '0xc30E53CC485bF1D306040316Ccb687505554F74D', abi, nonceManager)
-        const now = parseInt(Date.now()/1000)
-        contract.launch(2, 3, 'ETH', 1, {
-            value: ethers.utils.parseEther("0.001").toString(),
-        })
-      })
   }
 
   const getBets = async () => {
@@ -153,7 +134,7 @@ function App() {
         
       />
       {walletIdentifier !== null && (
-        <Button onClick={test}>test</Button>
+        <BetForm wallet={wallet} />
       )}
       {!loading 
         ? <BetList betList={betList} />
