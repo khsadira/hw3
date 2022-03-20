@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useWallet, UseWalletProvider } from 'use-wallet'
 import { ethers } from 'ethers'
 import Button from '@mui/material/Button';
+import { NonceManager } from "@ethersproject/experimental";
 
 import './App.css';
 import Menu from './Menu';
@@ -34,9 +35,14 @@ function App() {
         console.log({x: data})
         const abi = data.abi
         const provider = new ethers.providers.Web3Provider(wallet.ethereum)
-        const contract = new ethers.Contract('0x436b4eB93ACe97cF99Ba40b592aEECB92484f37D', abi, provider.getSigner())
+        const signer = provider.getSigner()
+        const nonceManager = new NonceManager(signer)
+        const contract = new ethers.Contract(
+          '0xc30E53CC485bF1D306040316Ccb687505554F74D', abi, nonceManager)
         const now = parseInt(Date.now()/1000)
-        contract.launch(100, now, now + 100, 'ETH', 4000)
+        contract.launch(2, 3, 'ETH', 1, {
+            value: ethers.utils.parseEther("0.01").toString(),
+        })
       })
   }
 
