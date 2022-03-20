@@ -18,28 +18,34 @@ function BetForm(props) {
     fetch('/Dyor_bet.json')
       .then(resp => resp.json())
       .then(data => {
+        console.log("HERE")
         const abi = data.abi
         const provider = new ethers.providers.Web3Provider(wallet.ethereum)
         const signer = provider.getSigner()
         const nonceManager = new NonceManager(signer)
         const contract = new ethers.Contract(
-          '0xc30E53CC485bF1D306040316Ccb687505554F74D', abi, nonceManager)
+          '0x50f65EadaAB6936A86787A8c1f0Bfb4a1cA164E5', abi, nonceManager)
         const now = parseInt(Date.now() / 1000)
-        contract.launch(now, now + betLength, currencyName, currencyValue, {
+        console.log("contract", contract)
+        contract.launch(now, now + betLength, currencyName, "down", {
           value: ethers.utils.parseEther(betValue).toString(),
         })
       })
+      .catch(error => {
+        console.log("errro", error)
+      }) 
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     console.log({data})
+    console.log(data.get('currencyValue'))
     createBet(
       data.get('betValue'),
       parseInt(data.get('betLength')),
       selectedCurrency,
-      parseInt(data.get('currencyValue')))
+      data.get('currencyValue'))
   }
 
   const [selectedCurrency, setSelectedCurrency] = React.useState('ETH')
@@ -56,7 +62,7 @@ function BetForm(props) {
         }}
       >
         <Typography component="h1" variant="h5">
-          Create a Bet
+          CREATE A BET
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -90,7 +96,7 @@ function BetForm(props) {
             margin="normal"
             required
             fullWidth
-            label="Currency value"
+            label="Prediciton"
             name="currencyValue"
           />
           <Button

@@ -5305,60 +5305,6 @@
 			"inputs": [
 				{
 					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"name": "bets",
-			"outputs": [
-				{
-					"internalType": "address",
-					"name": "creator",
-					"type": "address"
-				},
-				{
-					"internalType": "address",
-					"name": "challenger",
-					"type": "address"
-				},
-				{
-					"internalType": "uint256",
-					"name": "amount",
-					"type": "uint256"
-				},
-				{
-					"internalType": "uint32",
-					"name": "startAt",
-					"type": "uint32"
-				},
-				{
-					"internalType": "uint32",
-					"name": "endAt",
-					"type": "uint32"
-				},
-				{
-					"internalType": "bool",
-					"name": "claimed",
-					"type": "bool"
-				},
-				{
-					"internalType": "string",
-					"name": "symbol",
-					"type": "string"
-				},
-				{
-					"internalType": "uint256",
-					"name": "prediction",
-					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
 					"name": "_id",
 					"type": "uint256"
 				}
@@ -5382,25 +5328,7 @@
 			"type": "function"
 		},
 		{
-			"inputs": [],
-			"name": "count",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
 			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "_amount",
-					"type": "uint256"
-				},
 				{
 					"internalType": "uint32",
 					"name": "_startAt",
@@ -5417,14 +5345,133 @@
 					"type": "string"
 				},
 				{
-					"internalType": "uint256",
+					"internalType": "string",
 					"name": "_prediction",
-					"type": "uint256"
+					"type": "string"
 				}
 			],
 			"name": "launch",
 			"outputs": [],
 			"stateMutability": "payable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "_endPrice",
+					"type": "uint256"
+				}
+			],
+			"name": "setEndPrice",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "bets",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "creator",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "challenger",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256",
+					"name": "amount",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "startAt",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "endAt",
+					"type": "uint256"
+				},
+				{
+					"internalType": "bool",
+					"name": "claimed",
+					"type": "bool"
+				},
+				{
+					"internalType": "string",
+					"name": "symbol",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "prediction",
+					"type": "string"
+				},
+				{
+					"internalType": "uint256",
+					"name": "endPrice",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "startPrice",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "a",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "b",
+					"type": "string"
+				}
+			],
+			"name": "compareStrings",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "count",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		}
 	]

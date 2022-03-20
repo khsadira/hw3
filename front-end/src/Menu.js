@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 
-const pages = ['Home'];
+const pages = [];
 
 const ResponsiveAppBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
