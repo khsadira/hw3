@@ -27,7 +27,7 @@ function BetForm(props) {
           '0x1275308f4880F43f1cAeA2c7BCaB97cc7A88Ec6B', abi, nonceManager)
         const now = parseInt(Date.now() / 1000)
         console.log("contract", contract)
-        contract.launch(now, now + betLength, currencyName, "down", {
+        contract.launch(now, now + betLength, currencyName, currencyValue, {
           value: ethers.utils.parseEther(betValue).toString(),
         })
       })
