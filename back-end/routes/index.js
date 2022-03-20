@@ -10,7 +10,7 @@ const { send } = require('process');
 router.use(cors())
 
 
-const API_KEY = process.env.API_KEY
+const API_KEY = "yLcAmpNs3MHZaQ9Dfydp5VI24uI851jn"
 
 async function checkSignature(signature) {  
 	console.log("checkSignature")
@@ -81,6 +81,23 @@ async function getMoneyValue(moneyName, date) {
       }
      return "nop";
 };
+
+router.post("/getMoneyValue", async function(req, res, next) {
+  var reqBody = req.body;
+  var header = reqBody.headers || {}
+
+  header["x-api-key"] = API_KEY;
+
+  console.log("NEW CALL to:\nURL:", reqBody.url, "\nMETHOD:", reqBody.method, "\nHEADERS:", reqBody.headers, "\nBODY:", reqBody.body);
+  var ret;
+
+  fetch(reqBody.url, {
+    method: reqBody.method,
+    body: JSON.stringify(reqBody.body),
+    headers: header
+  }).then(res => res.json())
+  .then(json => res.send(json.response));
+})
 
 async function getBetsCount(network, address) {
 	var params = JSON.stringify({
