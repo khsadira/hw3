@@ -8,6 +8,7 @@ import { NonceManager } from "@ethersproject/experimental";
 export default function BetList(props) {
 	const {betList} = props
 	const wallet = useWallet()
+	const [error, setError] = React.useState({id: null, message: null})
 
 	function betItem(bet) {
 			async function acceptBet() {
@@ -44,8 +45,12 @@ export default function BetList(props) {
 				const contract = new ethers.Contract(
 				'0x50f65EadaAB6936A86787A8c1f0Bfb4a1cA164E5', abi, nonceManager)
 				const now = parseInt(Date.now()/1000)
-				contract.claim(bet.id)
+				contract.claim(bet.id).catch((e) => {
+					console.log("ERROR", e)
+					setError({id: bet.id, message: "CLAIM UNAUTHORIZED! SORRY YOU LOST!"})
+				})
 			})
+			
 		}
 
 		let betAmount = parseInt(bet[2]?._hex, 16)
@@ -84,6 +89,7 @@ export default function BetList(props) {
 				</Button>}
 				{bet[5] && <p style={{color: 'green'}}>OVER</p>}
 				{bet[5] && <p style={{color: 'green'}}>GAINS CLAIMED BY WINNER</p>}
+				{error.id == bet.id && <p style={{color: 'red'}}>{error.message}</p> }
 			</div>
 		)
 	}
